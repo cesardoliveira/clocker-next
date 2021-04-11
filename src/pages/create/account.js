@@ -12,15 +12,17 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  InputLeftAddon,
   Button,
 } from '@chakra-ui/react'
 
-import { Logo } from '../components'
-import firebase from '../config/firebase'
+import { Logo } from '../../components'
+import firebase from '../../config/firebase'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Enter a valid email address.').required('Valid e-mail is required.'),
-  password: yup.string().required('Password is required.')
+  password: yup.string().required('Password is required.'),
+  username: yup.string().required('Username is required.')
 })
 
 export default function Home() {
@@ -38,7 +40,7 @@ export default function Home() {
   } = useFormik({
     onSubmit: async (values, form) => {
       try {
-        const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+        const user = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
         console.log(user)  
       } catch (error) {
         console.log('ERROR: ', error) 
@@ -47,6 +49,7 @@ export default function Home() {
     validationSchema,
     initialValues: {
       email: '',
+      username: '',
       password: ''
     }
   })
@@ -93,6 +96,24 @@ export default function Home() {
           )}
         </FormControl>
 
+        <FormControl id="username" p={4} isRequired>
+          <InputGroup>
+            <InputLeftAddon children="clocker.work/" />
+            <Input
+              type="username"
+              placeholder="username"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </InputGroup>
+          {touched.username && (
+            <FormHelperText textColor="#e74c3c">
+              {errors.username}
+            </FormHelperText>
+          )}
+        </FormControl>
+
         <Box p={4}>
           <Button
             width="100%"
@@ -100,11 +121,11 @@ export default function Home() {
             isLoading={isSubmitting}
             onClick={handleSubmit}
           >
-            Sign In
+            Create My Account
           </Button>
         </Box>
       </Box>
-      <Link href="/create/account">New to Clocker? Create an account to get started.</Link>
+      <Link href="/">Have an account? Sign in now.</Link>
     </Container>
   )
 }
