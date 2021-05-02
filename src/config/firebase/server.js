@@ -3,7 +3,7 @@ import firebaseServer from 'firebase-admin'
 const app = firebaseServer.apps.length
   ? firebaseServer.app()
   : firebaseServer.initializeApp({
-    credential: admin.credential.cert({
+    credential: firebaseServer.credential.cert({
       type: "service_account",  
       project_id: process.env.FIREBASE_PROJECT_ID,
       private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
