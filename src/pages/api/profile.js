@@ -5,12 +5,22 @@ const profile = database.collection('profiles')
 
 export default async (req, res) => {
   const [, token] = req.headers.authorization.split(' ')
-  const { user_id } = await firebaseServer.auth().verifyIdToken(token)
+  
+  if (!token) {
+    return res.status(401)
+  }
 
-  profile.doc(req.body.username).set({
-    userId: user_id,
-    username: req.body.username
-  })
+  try {
+    const { user_id } = await firebaseServer.auth().verifyIdToken(token);
 
-  res.status(200).json({ name: 'John Doe' })
+    profile.doc(req.body.username).set({
+      userId: user_id,
+      username: req.body.username,
+    })
+
+    return res.status(200).json({ success: 'Account created with success.' })
+  } catch (error) {
+    console.error('Error: /profile', error)
+    return res.status(401)
+  }
 }
