@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
+import axios from 'axios'
 import * as yup from 'yup'
 
 import {
@@ -14,6 +15,16 @@ import {
 } from '@chakra-ui/react'
 
 import { Input } from '../Input'
+
+const setSchedule = async schedule =>
+  axios({
+    method: 'POST',
+    url: '/api/schedule',
+    data: {
+      ...schedule,
+      username: window.location.pathname.replace('/', '')
+    }
+  })
 
 const ModalTimeBlock = ({ isOpen, onClose, onComplete, children }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
@@ -34,11 +45,11 @@ export const TimeBlock = ({ time }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen((prevState) => !prevState)
 
-  const { touched, errors, values, handleChange, handleBlur, handleOnSubmit } = useFormik({
-    onSubmit: () => {},
+  const { touched, errors, values, handleChange, handleBlur, handleSubmit } = useFormik({
+    onSubmit: (values) => setSchedule({...values, when: time }),
     initialValues: {
       name: '',
-      mobile: '',
+      mobile: ''
     },
     validationSchema: yup.object().shape({
       name: yup.string().required('Name is required.'),
@@ -52,7 +63,7 @@ export const TimeBlock = ({ time }) => {
       <ModalTimeBlock
         isOpen={isOpen}
         onClose={toggle}
-        onComplete={handleOnSubmit}
+        onComplete={handleSubmit}
       >
         <>
           <Input

@@ -7,7 +7,7 @@ import { addDays, subDays } from 'date-fns'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Container, Box, IconButton, Button, SimpleGrid, Spinner } from '@chakra-ui/react'
 
-import { useAuth, Logo, Header, formatDate, TimeBlock } from '../components'
+import { useAuth, formatDate, Logo, Header, TimeBlock } from '../components'
 
 const getSchedule = async (when) =>
   axios({
@@ -24,7 +24,7 @@ export default function Schedule() {
  
   const addOneDay = () => setWhen(prevState => addDays(prevState, 1))
   const subtractOneDay = () => setWhen(prevState => subDays(prevState, 1))
-  
+ 
   useEffect(() => {
     fetch(when)
   }, [when])
