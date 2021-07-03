@@ -1,5 +1,6 @@
 export * from './Auth'
 export * from './Date'
 export * from './Header'
+export * from './Input'
 export * from './Logo'
 export * from './TimeBlock'
