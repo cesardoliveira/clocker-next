@@ -60,8 +60,8 @@ const getSchedule = async (req, res) => {
     }
 
     const snapshot = await agenda
-      .where("userId", "==", userId)
-      .where("date", "==", req.query.date)
+      .where('userId', '==', userId)
+      .where('date', '==', req.query.date)
       .get()
     
     const docs = snapshot.docs.map((doc) => doc.data())

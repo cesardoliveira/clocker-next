@@ -54,7 +54,7 @@ const ModalTimeBlock = ({ isOpen, onClose, onComplete, isSubmitting, children })
   </Modal>
 )
 
-export const TimeBlock = ({ time, date, isBlocked }) => {
+export const TimeBlock = ({ time, date, isBlocked, onSuccess }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen((prevState) => !prevState)
 
@@ -63,6 +63,7 @@ export const TimeBlock = ({ time, date, isBlocked }) => {
       try {
         await setSchedule({...values, time, date })
         toggle()
+        onSuccess()
       } catch (error) {
         console.log(error)
       }
