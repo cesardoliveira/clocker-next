@@ -26,7 +26,7 @@ const setSchedule = async schedule =>
     }
   })
 
-const ModalTimeBlock = ({ isOpen, onClose, onComplete, children }) => (
+const ModalTimeBlock = ({ isOpen, onClose, onComplete, isSubmitting, children }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
@@ -34,8 +34,19 @@ const ModalTimeBlock = ({ isOpen, onClose, onComplete, children }) => (
       <ModalCloseButton />
       <ModalBody>{children}</ModalBody>
       <ModalFooter>
-        <Button variant="ghost" onClick={onClose}>Cancel</Button>
-        <Button colorScheme="blue" mr={3} onClick={onComplete}>Book Schedule</Button>
+        {!isSubmitting && (
+          <Button variant="ghost" onClick={onClose}>
+            Cancel
+          </Button>
+        )}
+        <Button
+          mr={3}
+          colorScheme="blue"
+          onClick={onComplete}
+          isLoading={isSubmitting} 
+        >
+          Book Schedule
+        </Button>
       </ModalFooter>
     </ModalContent>
   </Modal>
@@ -45,8 +56,15 @@ export const TimeBlock = ({ time }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen((prevState) => !prevState)
 
-  const { touched, errors, values, handleChange, handleBlur, handleSubmit } = useFormik({
-    onSubmit: (values) => setSchedule({...values, when: time }),
+  const { touched, errors, values, handleChange, handleBlur, handleSubmit, isSubmitting  } = useFormik({
+    onSubmit: async (values) => { 
+      try {
+        await setSchedule({...values, when: time })
+        toggle()
+      } catch (error) {
+        console.log(error)
+      }
+    },
     initialValues: {
       name: '',
       mobile: ''
@@ -57,6 +75,8 @@ export const TimeBlock = ({ time }) => {
     }),
   })
 
+  console.log('isSubmitting: ' + isSubmitting)
+
   return (
     <Button p={8} bg="blue.500" color="white" onClick={toggle}>
       {time}
@@ -64,12 +84,14 @@ export const TimeBlock = ({ time }) => {
         isOpen={isOpen}
         onClose={toggle}
         onComplete={handleSubmit}
+        isSubmitting={isSubmitting}
       >
         <>
           <Input
             label="Name:"
             name="name"
             placeholder="Enter your name"
+            disabled={isSubmitting}
             touched={touched.name}
             error={errors.name}
             value={values.name}
@@ -81,6 +103,7 @@ export const TimeBlock = ({ time }) => {
             label="Mobile:" 
             name="mobile"
             placeholder="9999 999 999"
+            disabled={isSubmitting}
             touched={touched.mobile}
             error={errors.mobile} 
             value={values.mobile}
