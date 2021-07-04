@@ -28,16 +28,18 @@ const getUserId = async (username) => {
 
 const setSchedule = async (req, res) => {
   const userId = await getUserId(req.body.username)
-  const doc = await agenda.doc(`${userId}#${req.body.when}`).get()
+  const docId = `${userId}#${req.body.date}#${req.body.time}`
+  
+  const doc = await agenda.doc(docId).get()
 
   if (doc.exists) {
-    console.log(doc)
-    return res.status(400).json({ message: `Time ${req.body.when} is blocked. `})
+    return res.status(400).json({ message: `Schedule: ${req.body.date}-${req.body.time} is blocked.` })
   }
 
-  const booking = await agenda.doc(`${userId}#${req.body.when}`).set({   
+  const booking = await agenda.doc(docId).set({   
     userId,
-    when: req.body.when,
+    date: req.body.date,
+    time: req.body.time,
     name: req.body.name,
     mobile: req.body.mobile
   })
@@ -47,7 +49,6 @@ const setSchedule = async (req, res) => {
 
 const getSchedule = async (req, res) => {
   try {
-    console.log(timeBlocks)
     return res.status(200).json(timeBlocks)
   } catch (error) {
     console.error('Error: /schedule', error)

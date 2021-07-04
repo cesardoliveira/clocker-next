@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import axios from 'axios'
+import { format } from 'date-fns'
 import * as yup from 'yup'
 
 import {
@@ -16,12 +17,13 @@ import {
 
 import { Input } from '../Input'
 
-const setSchedule = async schedule =>
+const setSchedule = async ({ date, ...payload }) =>
   axios({
     method: 'POST',
     url: '/api/schedule',
     data: {
-      ...schedule,
+      ...payload,
+      date: format(date, 'yyyy-MM-dd'),
       username: window.location.pathname.replace('/', '')
     }
   })
@@ -52,14 +54,14 @@ const ModalTimeBlock = ({ isOpen, onClose, onComplete, isSubmitting, children })
   </Modal>
 )
 
-export const TimeBlock = ({ time }) => {
+export const TimeBlock = ({ time, date }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen((prevState) => !prevState)
 
   const { touched, errors, values, handleChange, handleBlur, handleSubmit, isSubmitting  } = useFormik({
     onSubmit: async (values) => { 
       try {
-        await setSchedule({...values, when: time })
+        await setSchedule({...values, time, date })
         toggle()
       } catch (error) {
         console.log(error)
@@ -74,8 +76,6 @@ export const TimeBlock = ({ time }) => {
       mobile: yup.string().required('Mobile is required.')
     }),
   })
-
-  console.log('isSubmitting: ' + isSubmitting)
 
   return (
     <Button p={8} bg="blue.500" color="white" onClick={toggle}>

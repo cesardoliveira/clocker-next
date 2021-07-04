@@ -63,7 +63,7 @@ export default function Schedule() {
               size="xl"
             />
           )}
-          {data?.map(time => <TimeBlock key={time} time={time} />)}
+          {data?.map(time => <TimeBlock key={time} time={time} date={when}/>)}
         </SimpleGrid>
       </Container>
     </div>
