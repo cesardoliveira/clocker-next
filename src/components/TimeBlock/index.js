@@ -104,6 +104,7 @@ export const TimeBlock = ({ time, date, isBlocked }) => {
               label="Mobile:"
               name="mobile"
               placeholder="9999 999 999"
+              mask={['9999 999 999']}
               disabled={isSubmitting}
               touched={touched.mobile}
               error={errors.mobile}
