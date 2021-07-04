@@ -9,13 +9,13 @@ import { Container, Box, IconButton, Button, SimpleGrid, Spinner } from '@chakra
 
 import { useAuth, formatDate, Logo, Header, TimeBlock } from '../components'
 
-const getSchedule = async (when) =>
+const getSchedule = async ({ when, username }) =>
   axios({
     method: 'GET',
     url: '/api/schedule',
     params: { 
       date: format(when, 'yyyy-MM-dd'),
-      username: window.location.pathname.replace('/', '') 
+      username
     }
   })
 
@@ -27,10 +27,10 @@ export default function Schedule() {
  
   const addOneDay = () => setWhen(prevState => addDays(prevState, 1))
   const subtractOneDay = () => setWhen(prevState => subDays(prevState, 1))
- 
+
   useEffect(() => {
-    fetch(when)
-  }, [when])
+    fetch({ when, username: router.query.username })
+  }, [when, router.query.username])
 
   return (
     <div>
