@@ -11,7 +11,7 @@ export default async (req, res) => {
   }
 
   try {
-    const { user_id } = await firebaseServer.auth().verifyIdToken(token);
+    const { user_id } = await firebaseServer.auth().verifyIdToken(token)
 
     profile.doc(req.body.username).set({
       userId: user_id,
