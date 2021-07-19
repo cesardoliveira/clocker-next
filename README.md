@@ -1,34 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Clocker App
+Time scheduling application called Clocker, using [React](https://reactjs.org/) with [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com/) for authentication and database.
+
+This application was built to learn how to use API Routes of Next.js, Firebase to manage backend infrastructure and [Chakra UI](https://chakra-ui.com/) to create accesible React components.
+
+"Clocker" is an app that allows users to create an agenda and manage their times to scheduling meetings.
+
+# Other Packages & Libs
+* [axios](https://github.com/iminside/js.cookie)
+* [date-fns](https://github.com/iminside/js.cookie)
+* [formik](https://github.com/iminside/js.cookie)
+* [remask](https://github.com/iminside/js.cookie)
+* [yup](https://github.com/iminside/js.cookie)
+
+## Clone `clocker-next`
+Clone repo, in the project directory, you can run:
+
+```
+git@github.com:cesardoliveira/clocker-next.git
+cd clocker-next
+```
+
+## Install Dependencies
+
+### npm
+
+```git
+npm install
+```
+
+### Yarn
+
+```git
+yarn install
+```
+
+This command installs a package, and any packages that it depends on.
 
 ## Getting Started
+Before you start in Dev or Test enviroment make sure you have installed:
+* [`Node.js ^12.18.2`](https://nodejs.org)
 
-First, run the development server:
+### Development
 
-```bash
+### npm
+
+```git
 npm run dev
-# or
+```
+
+### Yarn
+
+```git
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs the app in the development mode.<br />
+Open [`http://localhost:3000`](http://localhost:3000) to view it in the browser.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
